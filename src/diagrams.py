@@ -41,3 +41,36 @@ def plot_revenue_by_city(df: pd.DataFrame):
     plt.xticks(rotation=45, ha="right")
     plt.tight_layout()
 
+
+def plot_revenue_over_time(df: pd.DataFrame, freq: str = "M"):
+    """
+    Linjediagram: intäkt över tid.
+    
+    freq:
+        'D' = per dag
+        'W' = per vecka
+        'M' = per månad (standard)
+    Använder kolumnerna 'date' och 'revenue'.
+    """
+    df_copy = df.copy()
+
+    # Gör om date till datetime
+    df_copy["date"] = pd.to_datetime(df_copy["date"])
+
+    # Gruppera och summera intäkter per tidsenhet
+    grouped = (
+        df_copy
+        .set_index("date")
+        .groupby(pd.Grouper(freq=freq))["revenue"]
+        .sum()
+        .reset_index()
+        .sort_values("date")
+    )
+
+    plt.figure()
+    plt.plot(grouped["date"], grouped["revenue"], marker="o")
+    plt.xlabel("Datum")
+    plt.ylabel("Intäkt (revenue)")
+    plt.title(f"Intäkt över tid (freq={freq})")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()

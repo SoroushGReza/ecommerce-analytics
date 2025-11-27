@@ -9,7 +9,8 @@ sys.path.append(PROJECT_ROOT)
 
 from src.diagrams import (
     plot_revenue_by_category,
-    plot_revenue_by_city
+    plot_revenue_by_city,
+    plot_revenue_over_time
 )
 
 
@@ -36,6 +37,18 @@ def main():
     print("==============================\n")
 
     plot_revenue_by_city(df)
+    plt.show()
+
+    input("\nTryck Enter för att fortsätta till nästa test...")
+
+    # =====================================================
+    # TEST 3 – intäkt över tid per månad
+    # =====================================================
+    print("\n==============================")
+    print("TEST 3: plot_revenue_over_time (per månad)")
+    print("==============================\n")
+
+    plot_revenue_over_time(df, freq="ME")
     plt.show()
 
     input("\nTryck Enter för att avsluta...")
